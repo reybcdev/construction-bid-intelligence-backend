@@ -9,13 +9,18 @@ from pydantic import BaseModel
 from typing import List, Optional
 from datetime import datetime
 import mock_data
+from config import settings
 
-app = FastAPI(title="Construction Bid Intelligence API")
+app = FastAPI(
+    title="Construction Bid Intelligence API",
+    description="AI-powered construction bid document analysis",
+    version="1.0.0"
+)
 
-# CORS configuration
+# CORS configuration from environment
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],
+    allow_origins=settings.cors_origins_list,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -99,4 +104,9 @@ async def upload_document(file: UploadFile = File(...)):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(
+        app, 
+        host=settings.api_host, 
+        port=settings.api_port,
+        log_level="info"
+    )
