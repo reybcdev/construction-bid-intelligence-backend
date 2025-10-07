@@ -26,21 +26,42 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
+
+# Create .env file from template
+cp .env.example .env
+# Edit .env with your configuration
 ```
 
 ## 🏃 Running the Server
 
 ```bash
 # Development mode with auto-reload
-uvicorn main:app --reload --port 8000
-
-# Or using the main script
 python main.py
+
+# Or with uvicorn directly
+uvicorn main:app --reload --port 8000
 ```
 
 Server will be available at: http://localhost:8000
 
 API documentation: http://localhost:8000/docs
+
+## ⚙️ Configuration
+
+The application uses environment variables for configuration. Copy `.env.example` to `.env` and adjust values:
+
+```env
+# CORS Origins (comma-separated)
+CORS_ORIGINS=http://localhost:5173,http://localhost:3000
+
+# JWT Secret Key (generate with: openssl rand -hex 32)
+SECRET_KEY=your-secret-key
+
+# Demo Mode (true for mock data)
+DEMO_MODE=true
+```
+
+See `.env.example` for all available options.
 
 ## 📚 API Endpoints
 
